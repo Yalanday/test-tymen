@@ -19,9 +19,22 @@ const gridItems = ref([
   grid.value[2][2] = {color: '#6b73c2', id: 3},
 ] as GridItem[])
 
+const add = ref<HTMLElement | null>(null);
+
+const removeActiveClass = () => {
+  if (add.value) {
+    add.value.classList.remove('active');
+  }
+};
+
+const addActiveClass = () => {
+  if (add.value) {
+    add.value.classList.add('active');
+  }
+};
 
 // Выбранный цвет для нового элемента
-const selectedColor = ref('#000000');
+const selectedColor = ref('#b35151');
 
 // Добавление нового элемента в первую свободную ячейку
 const addNewItem = () => {
@@ -30,10 +43,12 @@ const addNewItem = () => {
     for (let col = 0; col < 5; col++) {
       if (!grid.value[row][col]) {
         gridItems.value.push(grid.value[row][col] = {color: selectedColor.value, id: gridItems.value.length + 1});
+        removeActiveClass();
         return;
       }
     }
   }
+
   alert('Все ячейки заняты!');
 };
 
@@ -65,14 +80,26 @@ const cellClickHandler = (evt: MouseEvent) => {
   console.log(evt.target)
 }
 
+
+const checkIfNoItemClass = (evt: MouseEvent) => {
+  const parentElement = evt.currentTarget as HTMLElement;
+  const items = parentElement.querySelectorAll('.item');
+  if (items.length === 0) {
+    addActiveClass()
+  } else {
+    return
+  }
+};
+
 </script>
 
 <template>
   <div class="grid-cell">
-    <div class="grid-cell__add">
+    <div ref="add" class="grid-cell__add">
       <label for="colorPicker">Выберите цвет: </label>
       <input type="color" id="colorPicker" v-model="selectedColor"/>
       <button @click="addNewItem">Добавить элемент</button>
+      <button class="close-btn" @click="removeActiveClass">X</button>
     </div>
 
     <!-- Сетка 5x5 -->
@@ -83,6 +110,7 @@ const cellClickHandler = (evt: MouseEvent) => {
           class="grid-cell__row row"
       >
         <div
+            @click="(evt)=> {checkIfNoItemClass(evt)}"
             v-for="(cell, colIndex) in row"
             :key="colIndex"
             class="grid-cell__cell cell"
@@ -127,6 +155,32 @@ const cellClickHandler = (evt: MouseEvent) => {
 
 .grid-cell__add {
   position: absolute;
+  border-radius: 10px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  top: -100%;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  padding: 10px;
+  background-color: #f1f1f1;
+  transition: top 0.3s ease, opacity 0.3s ease;
+}
+
+.grid-cell__add label {
+  color: #000000;
+}
+
+.grid-cell__add.active {
+  top: 0; /* Когда класс active, элемент появляется в контейнере */
+  opacity: 1; /* Элемент становится видимым */
+  z-index: 1000;
+}
+
+.close-btn {
+  padding: 5px 8px;
 }
 
 .grid {
