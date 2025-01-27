@@ -14,9 +14,9 @@ const grid = ref<(GridItem | null)[][]>(
 
 // Добавляем три элемента в разные ячейки
 const gridItems = ref([
-  grid.value[0][0] = {color: '#ff0000', id: 1},
-  grid.value[1][1] = {color: '#00ff00', id: 2},
-  grid.value[2][2] = {color: '#0000ff', id: 3},
+  grid.value[0][0] = {color: '#93bb77', id: 1},
+  grid.value[1][1] = {color: '#b9a276', id: 2},
+  grid.value[2][2] = {color: '#6b73c2', id: 3},
 ] as GridItem[])
 
 
@@ -68,31 +68,31 @@ const cellClickHandler = (evt: MouseEvent) => {
 </script>
 
 <template>
-  <div>
-    <div>
+  <div class="grid-cell">
+    <div class="grid-cell__add">
       <label for="colorPicker">Выберите цвет: </label>
       <input type="color" id="colorPicker" v-model="selectedColor"/>
       <button @click="addNewItem">Добавить элемент</button>
     </div>
 
     <!-- Сетка 5x5 -->
-    <div class="grid">
+    <div class="grid-cell__grid grid">
       <div
           v-for="(row, rowIndex) in grid"
           :key="rowIndex"
-          class="row"
+          class="grid-cell__row row"
       >
         <div
             v-for="(cell, colIndex) in row"
             :key="colIndex"
-            class="cell"
+            class="grid-cell__cell cell"
             @dragover.prevent
             @drop="onDrop(rowIndex, colIndex)"
         >
           <div
               v-if="cell"
               @click="(evt) => cellClickHandler(evt)"
-              class="item"
+              class="grid-cell__item item"
               :data-id="cell.id"
               draggable="true"
               @dragstart="onDragStart(rowIndex, colIndex)"
@@ -101,9 +101,9 @@ const cellClickHandler = (evt: MouseEvent) => {
             <!-- SVG-элемент -->
             <svg width="90" height="90" xmlns="http://www.w3.org/2000/svg">
               <!-- Нижний квадрат -->
-              <rect x="15" y="30" width="48" height="48" :fill="cell.color" style="opacity: 0.8"/>
+              <rect x="25" y="20" width="48" height="48" :fill="cell.color" style="opacity: 0.8"/>
               <!-- Верхний смещенный квадрат -->
-              <rect x="25" y="20" width="48" height="48" :fill="cell.color"/>
+              <rect x="15" y="30" width="48" height="48" :fill="cell.color"/>
             </svg>
             <div class="item__id">
               <span>{{ cell.id }}</span>
@@ -116,10 +116,22 @@ const cellClickHandler = (evt: MouseEvent) => {
 </template>
 
 <style scoped>
+
+.grid-cell {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  box-sizing: initial;
+}
+
+.grid-cell__add {
+  position: absolute;
+}
+
 .grid {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
 }
 
 .row {
@@ -129,7 +141,8 @@ const cellClickHandler = (evt: MouseEvent) => {
 .cell {
   width: 105px;
   height: 100px;
-  border: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
