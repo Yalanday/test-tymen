@@ -1,5 +1,11 @@
-# Vue 3 + TypeScript + Vite
+# Тестовое задание от RLT
+Vue 3 + TypeScript + Vite
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+1. При нажатии на пустую ячейку появится элемент для выбора цвета и количества
+2. При нажатии на ячейку с элементом откроется правое выплывающее модальное окно.
+3. В правом модальном окне по нажатию "Удалить предмет" появится элемент для ввода количества удаляемых едениц в предмете. Если значение меньше, то оно вычитается - предмет остается на своём месте. Если значение равно или больше(автоматически поставит доступное максимальное) и при нажатии "Подтвердить" предмет удалится из ячейки.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+Благодарю за интересное тестовое задание. Надеюсь, что в любом случае будет обратная связь с некоторыми советами и рекомендациями.
+
+
+ 
