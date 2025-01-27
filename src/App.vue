@@ -20,5 +20,4 @@ import BottomSkeleton from "./components/BottomSkeleton.vue";
   gap: 24px;
   margin-bottom: 24px;
 }
-
 </style>
